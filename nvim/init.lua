@@ -12,7 +12,10 @@ if not vim.loop.fs_stat(mini_path) then
   vim.fn.system(clone_cmd)
   vim.cmd('packadd mini.nvim | helptags ALL')
 end
+-- get os name, Darwin = macOS, Linux = Linus
+local os_name = vim.loop.os_uname().sysname
 
+vim.cmd("language en_US")
 vim.g.mapleader = ","
 vim.g.maplocalleader = ","
 -- package manager
@@ -201,7 +204,12 @@ require('mini.visits').setup()
 require('oil').setup()
 vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" }) 
 
-vim.g.vimtex_view_method = 'zathura'
+if os_name == "Linux" then
+  vim.g.vimtex_view_method = 'zathura'
+elseif os_name == "Darwin" then
+  vim.g.vimtex_view_method = 'skim'
+end
+
 vim.g.vimtex_compiler_latexmk = {
   aux_dir = 'aux',
   out_dir = 'output',
@@ -213,7 +221,7 @@ vim.g.vimtex_complete_bib = {
 }
 
 vim.o.conceallevel = 1
-vim.g.tex_conceal = 'abdmg'
+vim.g.tex_conceal = "g"
 -- set conceal color to text color
 -- Function to set Conceal to match Normal
 local function set_conceal_to_normal()
