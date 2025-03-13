@@ -29,6 +29,18 @@ add({
 })
 
 add({
+  source = 'davidgranstrom/scnvim',
+})
+
+add({
+  source = 'nvim-lua/plenary.nvim'
+})
+
+add({
+  source = 'nvim-telescope/telescope.nvim'
+})
+
+add({
   source = 'williamboman/mason-lspconfig.nvim',
 })
 
@@ -62,6 +74,14 @@ add({
 
 add({
   source = 'barreiroleo/ltex_extra.nvim'
+})
+
+add({
+  source = 'rcarriga/nvim-notify',
+})
+
+add({
+  source = 'epwalsh/pomo.nvim',
 })
 -- ---------------------------------------------------------------------------------------------------------------------------
 
@@ -120,6 +140,15 @@ lspconfig.ltex.setup({
     }
   }
 })
+
+lspconfig.ols.setup {
+	init_options = {
+		checker_args = "-strict-style",
+		collections = {
+			{ name = "shared", path = vim.fn.expand('$HOME/odin-lib') }
+		},
+	},
+}
 
 vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, {})
 vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
@@ -244,6 +273,13 @@ vim.g.UltiSnipsExpandTrigger = '<tab>'
 vim.g.UltiSnipsJumpForwardTrigger = '<tab>'
 vim.g.UltiSnipsJumpBackwardTrigger = '<s-tab>'
 
+-- telescope 
+local builtin = require('telescope.builtin')
+vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find files' })
+vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
+vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
+vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
+
 -- basic vim
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
@@ -251,17 +287,22 @@ vim.opt.expandtab = true
 vim.bo.softtabstop = 2
 vim.opt.signcolumn = 'yes'
 
+-- linebreak behaviour
 vim.o.linebreak = true
+vim.o.wrap = true
+vim.o.breakindent = true
 
 -- visual line movement 
 -- Remap movement keys to operate on visual lines
 local opts = { noremap = true, silent = true }
 
--- Map j and k to gj and gk in normal and visual modes
-vim.keymap.set({ 'n', 'v' }, 'j', 'gj', opts)
-vim.keymap.set({ 'n', 'v' }, 'k', 'gk', opts)
+--notify 
+require('notify').setup({
+  stages = "fade",
+})
 
--- Optionally remap other movement keys for visual lines
-vim.keymap.set({ 'n', 'v' }, '0', 'g0', opts)  -- Beginning of visual line
-vim.keymap.set({ 'n', 'v' }, '^', 'g^', opts)  -- First non-blank character of visual line
-vim.keymap.set({ 'n', 'v' }, '$', 'g$', opts)  -- End of visual line
+--pomo
+require('pomo').setup({})
+
+-- supercollider
+require('scnvim').setup({})

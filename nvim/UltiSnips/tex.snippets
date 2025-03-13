@@ -10,7 +10,7 @@ snippet item "Itemize" b
 \end{itemize}
 endsnippet
 
-snippet cal "Mathcal" bi
+snippet cal "Mathcal" bw
 \mathcal{$1}$0
 endsnippet
 
@@ -20,4 +20,17 @@ snippet beg "begin{} / end{}" b
 \\end{$1}
 endsnippet
 
+snippet def "defintion block" b
+\begin{Definition}[$1]
+\label{def:$1}
+	$0
+\end{Definition}
+endsnippet
+
+snippet ex "example block" b
+\begin{Example}[$1]
+\label{def:$1}
+	$0
+\end{Example}
+endsnippet
 
